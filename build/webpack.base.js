@@ -9,11 +9,20 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const { isDev } = env;
 
+let name = 'mat-cloud-qiankun-react';
+
 module.exports = {
   entry: path.join(__dirname, '../src/index.tsx'), //入口文件
 
   //打包文件出口
   output: {
+    library: `${name}-[name]`, // qiankun 配置
+    libraryTarget: 'umd', // qiankun 配置
+    // jsonpFunction: `webpackJsonp_${name}`, // qiankun 配置
+    // webpack 5 需要把 jsonpFunction 替换成 chunkLoadingGlobal
+    chunkLoadingGlobal: `webpackJsonp_${name}`, // qiankun 配置
+    globalObject: 'window', // qiankun 配置
+
     /* 
     合理配置文件缓存,可以提升前端加载页面速度。webpack打包的hash分三种：
 hash：跟整个项目的构建有关，只要项目里面有文件修改，那么整个项目构建的hash都会改变
